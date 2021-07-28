@@ -1,8 +1,22 @@
 import logo from './logo.svg';
 import './App.css';
+import React, { Component } from 'react';
+import { w3cwebsocket as W3CWebSocket } from "websocket";
 
-function App() {
-  return (
+const client = new W3CWebSocket('ws://127.0.0.1:8080', 'echo-protocol');
+
+class App extends Component {
+  componentWillMount() {
+    client.onopen = () => {
+      console.log('WebSocket Client Connected');
+    };
+    client.onmessage = (message) => {
+      console.log(message);
+    };
+  }
+  
+  render() {
+    return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
@@ -20,6 +34,7 @@ function App() {
       </header>
     </div>
   );
+  }
 }
 
 export default App;
